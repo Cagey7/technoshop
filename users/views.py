@@ -6,6 +6,7 @@ from .forms import *
 
 
 class LoginUser(LoginView):
+    form_class = LoginUserForm
     template_name="users/login.html"
 
 
