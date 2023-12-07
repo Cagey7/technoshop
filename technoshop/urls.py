@@ -14,12 +14,19 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import sys
 from django.contrib import admin
 from django.urls import include, path
+from django.conf.urls.static import static
+from technoshop.settings import local, base
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("core.urls")),
     path("", include("users.urls")),
     path("", include("django.contrib.auth.urls")),
+    path("", include("products.urls"))
 ]
+
+if sys.argv[2] == "--settings=technoshop.settings.local": 
+    urlpatterns += static(base.MEDIA_URL, document_root=base.MEDIA_ROOT)
