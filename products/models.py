@@ -13,6 +13,10 @@ class Item(TimeStampedModel):
         OFF_STOCK = 0, "В наличии"
         IN_STOCK = 1, "Нет в наличии"
 
+    class Meta:
+        verbose_name = "Товары"
+        verbose_name_plural = "Товары"
+
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
     desc = models.TextField(blank=True)
@@ -32,6 +36,10 @@ class Item(TimeStampedModel):
 
 
 class Category(models.Model):
+    class Meta:
+        verbose_name = "Категории"
+        verbose_name_plural = "Категории"
+
     name = models.CharField(max_length=127, db_index=True)
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
 

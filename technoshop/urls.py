@@ -18,7 +18,7 @@ import sys
 from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls.static import static
-from technoshop.settings import local, base
+from technoshop.settings import base
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -30,3 +30,6 @@ urlpatterns = [
 
 if sys.argv[2] == "--settings=technoshop.settings.local": 
     urlpatterns += static(base.MEDIA_URL, document_root=base.MEDIA_ROOT)
+
+admin.site.site_header = "Панель администрирования"
+admin.site.index_title = "Продуктовый магазин"
