@@ -17,19 +17,19 @@ class Item(TimeStampedModel):
         verbose_name = "Товары"
         verbose_name_plural = "Товары"
 
-    name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True, db_index=True)
-    desc = models.TextField(blank=True)
-    price = models.IntegerField(null=False)
-    is_published = models.BooleanField(choices=Status.choices, default=Status.IN_STOCK)
-    photo = models.ImageField(upload_to="images/%Y/%m/%d", default=None, blank=True, null=True)
-    item_category = models.ForeignKey("Category", on_delete=models.PROTECT)
+    name = models.CharField(max_length=255, verbose_name="Наименование")
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="Slug")
+    desc = models.TextField(blank=True, verbose_name="Описание товара")
+    price = models.IntegerField(null=False, verbose_name="Цена")
+    is_published = models.IntegerField(choices=Status.choices, default=Status.IN_STOCK, verbose_name="Статус")
+    photo = models.ImageField(upload_to="images/items/%Y/%m/%d", default=None, blank=True, null=True, verbose_name="Изображение")
+    item_category = models.ForeignKey("Category", on_delete=models.PROTECT, verbose_name="Категория")
     
     objects = models.Manager()
     published = PublishedManaget()
 
     def __str__(self):
-        return f"Название товара: {self.name}"
+        return f"{self.name}"
     
     # def get_absolute_url(self):
     #     return reverse("products", kwargs={"slug":self.slug})
@@ -41,7 +41,8 @@ class Category(models.Model):
         verbose_name_plural = "Категории"
 
     name = models.CharField(max_length=127, db_index=True)
+    photo = models.ImageField(upload_to="images/categories/%Y/%m/%d", default=None, blank=True, null=True, verbose_name="Изображение")
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
 
     def __str__(self):
-        return f"Категория: {self.name}"
+        return f"{self.name}"
