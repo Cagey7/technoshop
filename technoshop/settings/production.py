@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from .base import *
 load_dotenv()
 
-ALLOWED_HOSTS = ["localhost"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 DEBUG = False
 

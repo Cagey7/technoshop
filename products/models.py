@@ -10,8 +10,8 @@ class PublishedManaget(models.Manager):
 
 class Item(TimeStampedModel):
     class Status(models.IntegerChoices):
-        OFF_STOCK = 0, "В наличии"
-        IN_STOCK = 1, "Нет в наличии"
+        OFF_STOCK = 0, "Нет в наличии"
+        IN_STOCK = 1, "В наличии"
 
     class Meta:
         verbose_name = "Товары"

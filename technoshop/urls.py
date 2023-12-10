@@ -18,7 +18,9 @@ import sys
 from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls.static import static
+from core.views import page_not_found, server_error
 from technoshop.settings import base
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -33,3 +35,7 @@ if sys.argv[2] == "--settings=technoshop.settings.local":
 
 admin.site.site_header = "Панель администрирования"
 admin.site.index_title = "Продуктовый магазин"
+
+
+handler404 = page_not_found
+handler500 = server_error
