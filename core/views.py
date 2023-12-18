@@ -3,22 +3,14 @@ from django.shortcuts import render
 
 
 navbar_auth = [
-    {"title":"Главная страница", "url_name": "index", "selected": 0},
-    {"title":"Логин", "url_name": "login", "selected": 0},
-    {"title":"Регистрация", "url_name": "register", "selected": 0},
+    {"title":"Главная страница", "url_name": "index"},
+    {"title":"Логин", "url_name": "login"},
+    {"title":"Регистрация", "url_name": "register"},
 ]
 navbar_not_auth = [
-    {"title":"Главная страница", "url_name": "index", "selected": 0},
-    {"title":"Выйти", "url_name": "logout", "selected": 0}
+    {"title":"Главная страница", "url_name": "index"},
+    {"title":"Выйти", "url_name": "logout"}
 ]
-
-
-def index(request):
-    context = {
-        "navbar_auth": navbar_auth,
-        "navbar_not_auth": navbar_not_auth
-    }
-    return render(request, "core/index.html", context=context)
 
 
 def page_not_found(request, exception):

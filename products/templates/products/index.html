@@ -1,0 +1,22 @@
+{% extends "core/layout.html" %}
+
+{% block body %}
+    <h1>Главная страница</h1>
+    <h2>Привет, {{ user.email }}</h2>
+    {% if selected_category is None or selected_category == 0 %}
+        <p>Все категории</p>
+    {% else %}
+        <a href="{% url 'index' %}">Все категории</a>
+    {% endif %}
+    {% for category in categories %}
+        {% if category.id == selected_category %}
+            <p>{{ category.name }}</p>
+        {% else %}
+            <p><a href="{% url 'category' category.slug %}">{{ category.name }}</a></p>
+        {% endif %}
+    {% endfor %}
+
+    {% for item in items %}
+        <p>{{ item.name }}</p>
+    {% endfor %}
+{% endblock %}
