@@ -26,7 +26,7 @@ class Item(TimeStampedModel):
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="Slug")
     desc = models.TextField(blank=True, verbose_name="Описание товара")
     price = models.IntegerField(null=False, verbose_name="Цена")
-    amount = models.IntegerField(null=False, verbose_name="Количество")
+    quantity = models.IntegerField(null=False, verbose_name="Количество")
     is_published = models.IntegerField(choices=Status.choices, default=Status.IN_STOCK, verbose_name="Статус")
     photo = models.ImageField(upload_to="images/items/%Y/%m/%d", default=None, blank=True, null=True, verbose_name="Изображение")
     item_category = models.ForeignKey("Category", on_delete=models.PROTECT, verbose_name="Категория")
