@@ -4,10 +4,10 @@ from .models import *
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ("name", "price", "is_published", "post_photo", "item_category", "created", )
+    list_display = ("name", "price", "amount", "is_published", "post_photo", "item_category", "created", )
     list_display_links = ("name", )
     ordering = ("created", )
-    list_editable = ("is_published", "item_category")
+    list_editable = ("is_published", "item_category", "amount")
     list_per_page = 10
     actions = ("set_in_stock", "set_off_stock")
     search_fields = ("name", "item_category__name")
@@ -29,6 +29,19 @@ class ItemAdmin(admin.ModelAdmin):
     def set_off_stock(self, request, queryset):
         count = queryset.update(is_published=Item.Status.OFF_STOCK)
         self.message_user(request, f"Измененно {count} записей.")
+
+    def save_model(self, request, obj, form, change):
+        if obj.amount == 0:
+            if obj.is_published == Item.Status.IN_STOCK:
+                obj.is_published = Item.Status.OFF_STOCK
+        elif obj.amount > 0:
+            if obj.is_published == Item.Status.OFF_STOCK:
+                obj.is_published = Item.Status.IN_STOCK
+        elif obj.amount < 0:
+            obj.amount = 0
+            if obj.is_published in [Item.Status.IN_STOCK, Item.Status.OFF_STOCK]:
+                obj.is_published = Item.Status.OFF_STOCK
+        super().save_model(request, obj, form, change)
 
 
 @admin.register(Category)
