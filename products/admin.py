@@ -1,13 +1,13 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import *
+from .models import Item, Category
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ("name", "price", "quantity ", "is_published", "post_photo", "item_category", "created", )
+    list_display = ("name", "price", "quantity", "is_published", "post_photo", "item_category", "created", )
     list_display_links = ("name", )
     ordering = ("created", )
-    list_editable = ("is_published", "item_category", "quantity ")
+    list_editable = ("is_published", "item_category", "quantity")
     list_per_page = 10
     actions = ("set_in_stock", "set_off_stock")
     search_fields = ("name", "item_category__name")
@@ -34,7 +34,7 @@ class ItemAdmin(admin.ModelAdmin):
         if obj.quantity == 0:
             if obj.is_published == Item.Status.IN_STOCK:
                 obj.is_published = Item.Status.OFF_STOCK
-        elif obj.amount > 0:
+        elif obj.quantity > 0:
             if obj.is_published == Item.Status.OFF_STOCK:
                 obj.is_published = Item.Status.IN_STOCK
         elif obj.quantity < 0:
