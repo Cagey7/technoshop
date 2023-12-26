@@ -17,6 +17,13 @@
     {% endfor %}
 
     {% for item in items %}
-        <p>{{ item.name }}</p>
+        <p>----------------------------</p>
+        <a href="{% url 'item' item.slug %}"><p>{{ item.name }}</p></a>
+        <form action="/submit" method="post">
+            <label for="quantity">Количество:</label>
+            <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+            <button type="submit">Добавить в корзину</button>
+        </form>
+        <p>----------------------------</p>
     {% endfor %}
 {% endblock %}
