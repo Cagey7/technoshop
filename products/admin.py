@@ -16,7 +16,7 @@ class ItemAdmin(admin.ModelAdmin):
 
     @admin.display(description="Просмотр")
     def post_photo(self, item):
-        if item.photo.url:
+        if item.photo:
             return mark_safe(f"<img src='{item.photo.url}' width=100>")
         return "Без фото"
 
@@ -52,6 +52,6 @@ class CategoryAdmin(admin.ModelAdmin):
 
     @admin.display(description="Просмотр")
     def post_photo(self, category):
-        if category.photo.url:
+        if category.photo:
             return mark_safe(f"<img src='{category.photo.url}' width=100>")
         return "Без фото"

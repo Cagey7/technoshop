@@ -4,7 +4,7 @@ from .models import CartItem, Cart
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ("user", "total")
+    list_display = ("user", )
     list_per_page = 10
 
 

@@ -2,6 +2,7 @@ from django.db.models.base import Model as Model
 from django.shortcuts import get_object_or_404
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from cart.forms import AddToCartForm
 from .models import *
 from core.views import navbar_auth, navbar_not_auth
 
@@ -13,7 +14,8 @@ class ProductsHome(ListView):
         "title": "Главная страница",
         "categories": Category.objects.all(),
         "navbar_auth": navbar_auth,
-        "navbar_not_auth": navbar_not_auth
+        "navbar_not_auth": navbar_not_auth,
+        "form": AddToCartForm
     }
 
     def get_queryset(self):
@@ -27,7 +29,8 @@ class ItemCategory(ListView):
     extra_context = {
         "navbar_auth": navbar_auth,
         "navbar_not_auth": navbar_not_auth,
-        "categories": Category.objects.all()
+        "categories": Category.objects.all(),
+        "form": AddToCartForm
     }
 
     def get_queryset(self):
@@ -35,7 +38,7 @@ class ItemCategory(ListView):
     
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
-        category = context["items"][0].item_category
+        category = Category.objects.get(slug=self.kwargs["category_slug"])
         context["title"] = "Категория - " + category.name
         context["selected_category"] = category.pk
         return context

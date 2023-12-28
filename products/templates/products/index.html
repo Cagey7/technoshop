@@ -19,11 +19,12 @@
     {% for item in items %}
         <p>----------------------------</p>
         <a href="{% url 'item' item.slug %}"><p>{{ item.name }}</p></a>
-        <form action="/submit" method="post">
-            <label for="quantity">Количество:</label>
-            <input type="number" id="quantity" name="quantity" min="1" value="1" required>
-            <button type="submit">Добавить в корзину</button>
-        </form>
+        <form method="post" action="{% url 'add-to-cart' item.id %}">
+            {% csrf_token %}
+            <p>{{ form.non_field_errors }}</p>
+            {{ form.quantity }}
+            <button type="submit">Submit</button>
+        </form> 
         <p>----------------------------</p>
     {% endfor %}
 {% endblock %}

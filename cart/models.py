@@ -6,7 +6,6 @@ from users.models import User
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Пользователь")
     items = models.ManyToManyField(Item, through="CartItem", related_name="items", verbose_name="Товары")
-    total = models.IntegerField(null=True, blank=True, verbose_name="Итого")
 
     class Meta:
         verbose_name = "Корзина"
