@@ -38,6 +38,11 @@ class Item(TimeStampedModel):
     def __str__(self):
         return f"{self.name}"
     
+    def is_in_cart(self, user):
+        from cart.models import Cart
+        cart = Cart.objects.get(user=user)
+        return cart.items.filter(pk=self.pk).exists()
+
     def get_absolute_url(self):
         return reverse("products", kwargs={"slug":self.slug})
 

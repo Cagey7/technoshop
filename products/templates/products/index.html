@@ -17,14 +17,21 @@
     {% endfor %}
 
     {% for item in items %}
-        <p>----------------------------</p>
-        <a href="{% url 'item' item.slug %}"><p>{{ item.name }}</p></a>
-        <form method="post" action="{% url 'add-to-cart' item.id %}">
-            {% csrf_token %}
-            <p>{{ form.non_field_errors }}</p>
-            {{ form.quantity }}
-            <button type="submit">Submit</button>
-        </form> 
-        <p>----------------------------</p>
+        {% if item.is_in_cart %}
+            <p>----------------------------</p>
+            <p>{{ item.item }}</p>
+            <p>----------------------------</p>
+        {% else %}
+            <p>----------------------------</p>
+            <a href="{% url 'item' item.item.slug %}"><p>{{ item.item.name }}</p></a>
+            <form method="post" action="{% url 'add-to-cart' item.item.id %}">
+                {% csrf_token %}
+                <p>{{ form.non_field_errors }}</p>
+                {{ form.quantity }}
+                <button type="submit">Submit</button>
+            </form> 
+            <p>----------------------------</p>
+        {% endif %}
+
     {% endfor %}
 {% endblock %}

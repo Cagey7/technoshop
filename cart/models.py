@@ -23,6 +23,7 @@ class CartItem(models.Model):
     class Meta:
         verbose_name = "Товар корзины"
         verbose_name_plural = "Товар корзины"
+        unique_together = ["cart", "item"]
 
     def __str__(self):
         return f"{self.item} пользователя {self.cart.user}"

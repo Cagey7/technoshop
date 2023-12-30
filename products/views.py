@@ -2,14 +2,15 @@ from django.db.models.base import Model as Model
 from django.shortcuts import get_object_or_404
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic import TemplateView
 from cart.forms import AddToCartForm
+from cart.models import Cart
 from .models import *
 from core.views import navbar_auth, navbar_not_auth
 
 
-class ProductsHome(ListView):
+class ProductsHome(TemplateView):
     template_name = "products/index.html"
-    context_object_name = "items"
     extra_context = {
         "title": "Главная страница",
         "categories": Category.objects.all(),
@@ -17,12 +18,18 @@ class ProductsHome(ListView):
         "navbar_not_auth": navbar_not_auth,
         "form": AddToCartForm
     }
+    
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        items_list = Item.published.all().select_related("item_category")
+        items = []
+        for item in items_list:
+            items.append({"item": item, "is_in_cart": item.is_in_cart(self.request.user)})
+        context["items"] = items
+        return context
 
-    def get_queryset(self):
-        return Item.published.all().select_related("item_category")
 
-
-class ItemCategory(ListView):
+class ItemCategory(TemplateView):
     template_name = "products/index.html"
     context_object_name = "items"
     allow_empty = False
@@ -33,11 +40,13 @@ class ItemCategory(ListView):
         "form": AddToCartForm
     }
 
-    def get_queryset(self):
-        return Item.published.filter(item_category__slug=self.kwargs["category_slug"])
-    
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
+        items_list = Item.published.filter(item_category__slug=self.kwargs["category_slug"])
+        items = []
+        for item in items_list:
+            items.append({"item": item, "is_in_cart": item.is_in_cart(self.request.user)})
+        context["items"] = items
         category = Category.objects.get(slug=self.kwargs["category_slug"])
         context["title"] = "Категория - " + category.name
         context["selected_category"] = category.pk
