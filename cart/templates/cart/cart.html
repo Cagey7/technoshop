@@ -9,18 +9,42 @@
                 {% csrf_token %}
                 <input type="submit" value="Да, удалить">
             </form>
+            <form method="post" action="{% url 'increase_by_one' cart_item.pk %}">
+                {% csrf_token %}
+                <button type="submit">+</button>
+            </form>
+            <form method="post" action="{% url 'decrease_by_one' cart_item.pk %}">
+                {% csrf_token %}
+                <button type="submit">-</button>
+            </form>
+            <p>Количество в корзине {{ cart_item.quantity }}</p>
             <p>{{ cart_item.item.name }}</p>
+            <p>Доступно: {{ cart_item.item.quantity }}</p>
             <p>----------------------------</p>
         {% endfor %}
     {% else %}
-        {% for cart_item in cart_items %}
-            <p>----------------------------</p>
-            <form method="post" action="{% url 'delete_cart_item_anon' cart_item.pk %}">
+            
+    {% for cart_item in cart_items %}
+        <p>----------------------------</p>
+        {% for item in cart_item.item %}
+            <form method="post" action="{% url 'delete_cart_item_anon' item.pk %}">
                 {% csrf_token %}
                 <input type="submit" value="Да, удалить">
             </form>
-            <p>{{ cart_item.name }}</p>
-            <p>----------------------------</p>
+            <form method="post" action="{% url 'increase_by_one_anon' item.pk %}">
+                {% csrf_token %}
+                <button type="submit">+</button>
+            </form>
+            <form method="post" action="{% url 'decrease_by_one_anon' item.pk %}">
+                {% csrf_token %}
+                <button type="submit">-</button>
+            </form>
+            <p>Количество в корзине {{ cart_item.quantity }}</p>
+            <p>{{ item.name }}</p>
+            <p>Доступно: {{ item.quantity }}</p>
         {% endfor %}
+        <p>----------------------------</p>
+    {% endfor %}
+
     {% endif %}
 {% endblock %}

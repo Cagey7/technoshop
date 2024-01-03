@@ -24,6 +24,7 @@
                 <p><img src="{{ item.item.photo.url }}" width=100></p>
             {% endif %}
             <p>Цена: {{ item.item.price }}</p>
+            <a href="{% url 'cart' %}">Перейти в корзину</a>
             <p>----------------------------</p>
         {% else %}
             <p>----------------------------</p>

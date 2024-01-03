@@ -27,3 +27,15 @@ class CartItem(models.Model):
 
     def __str__(self):
         return f"{self.item} пользователя {self.cart.user}"
+
+    def increase_quantity(self, amount=1):
+        amount_available = Item.objects.get(id=self.item.pk).quantity
+        amount_in_cart = self.quantity + amount
+        if amount_in_cart <= amount_available:
+            self.quantity += amount
+        self.save()
+
+    def decrease_quantity(self, amount=1):
+        if self.quantity > amount:
+            self.quantity -= amount
+            self.save()
