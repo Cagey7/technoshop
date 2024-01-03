@@ -1,0 +1,26 @@
+{% extends "core/layout.html" %}
+
+{% block body %}
+    <p>Корзина:</p>
+    {% if user.is_authenticated %}
+        {% for cart_item in cart_items %}
+            <p>----------------------------</p>
+            <form method="post" action="{% url 'delete_cart_item' cart_item.pk %}">
+                {% csrf_token %}
+                <input type="submit" value="Да, удалить">
+            </form>
+            <p>{{ cart_item.item.name }}</p>
+            <p>----------------------------</p>
+        {% endfor %}
+    {% else %}
+        {% for cart_item in cart_items %}
+            <p>----------------------------</p>
+            <form method="post" action="{% url 'delete_cart_item_anon' cart_item.pk %}">
+                {% csrf_token %}
+                <input type="submit" value="Да, удалить">
+            </form>
+            <p>{{ cart_item.name }}</p>
+            <p>----------------------------</p>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

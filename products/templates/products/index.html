@@ -20,11 +20,19 @@
         {% if item.is_in_cart %}
             <p>----------------------------</p>
             <p>{{ item.item }}</p>
+            {% if item.item.photo %}
+                <p><img src="{{ item.item.photo.url }}" width=100></p>
+            {% endif %}
+            <p>Цена: {{ item.item.price }}</p>
             <p>----------------------------</p>
         {% else %}
             <p>----------------------------</p>
             <a href="{% url 'item' item.item.slug %}"><p>{{ item.item.name }}</p></a>
-            <form method="post" action="{% url 'add-to-cart' item.item.id %}">
+            {% if item.item.photo %}
+                <p><img src="{{ item.item.photo.url }}" width=100></p>
+            {% endif %}
+            <p>Цена: {{ item.item.price }}</p>
+            <form method="post" action="{% url 'add_to_cart' item.item.id %}">
                 {% csrf_token %}
                 <p>{{ form.non_field_errors }}</p>
                 {{ form.quantity }}
