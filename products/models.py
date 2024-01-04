@@ -7,16 +7,11 @@ class PublishedManaget(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_published=Item.Status.IN_STOCK)
 
-class SallingManaget(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(is_published__in=[Item.Status.IN_STOCK, 
-                                                               Item.Status.OFF_STOCK])
 
 class Item(TimeStampedModel):
     class Status(models.IntegerChoices):
         OFF_STOCK = 0, "Нет в наличии"
         IN_STOCK = 1, "В наличии"
-        NOT_AVALIABLE = 2, "Не продается"
 
     class Meta:
         verbose_name = "Товары"
@@ -33,7 +28,6 @@ class Item(TimeStampedModel):
     
     objects = models.Manager()
     published = PublishedManaget()
-    salling = SallingManaget()
 
     def __str__(self):
         return f"{self.name}"
