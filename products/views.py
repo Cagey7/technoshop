@@ -2,7 +2,6 @@ from django.db.models.base import Model as Model
 from django.shortcuts import get_object_or_404
 from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView
-from cart.forms import AddToCartForm
 from .models import *
 from core.views import navbar_auth, navbar_not_auth
 
@@ -14,7 +13,6 @@ class ProductsHome(TemplateView):
         "categories": Category.objects.all(),
         "navbar_auth": navbar_auth,
         "navbar_not_auth": navbar_not_auth,
-        "form": AddToCartForm
     }
     
     def get_context_data(self, **kwargs):
@@ -52,7 +50,6 @@ class ItemCategory(TemplateView):
         "navbar_auth": navbar_auth,
         "navbar_not_auth": navbar_not_auth,
         "categories": Category.objects.all(),
-        "form": AddToCartForm
     }
 
     def get_context_data(self, **kwargs):
@@ -92,7 +89,6 @@ class ShowItem(TemplateView):
     extra_context = {
         "navbar_auth": navbar_auth,
         "navbar_not_auth": navbar_not_auth,
-        "form": AddToCartForm
     }
 
     def get_context_data(self, **kwargs):
