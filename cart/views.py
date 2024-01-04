@@ -10,23 +10,20 @@ from products.models import Item
 from core.views import navbar_auth, navbar_not_auth
 
 
-class AddToCart(FormView):
-    form_class = AddToCartForm
-
-    def form_valid(self, form):
+class AddToCart(View):
+    def post(self, request, *args, **kwargs):
         item = get_object_or_404(Item, id=self.kwargs["item_id"])
-        quantity = form.cleaned_data["quantity"]
         if self.request.user.is_authenticated:
             cart = Cart.objects.get(user__id=self.request.user.id)
-            cart_item = CartItem(quantity=quantity, cart=cart, item=item)
+            cart_item = CartItem(quantity=1, cart=cart, item=item)
             cart_item.save()
         else:
             if not self.request.session.get("cart"):
                 self.request.session["cart"] = []
             self.request.session["cart"].append({"item": item.id, "quantity": 1})
             print(self.request.session["cart"])
-        return super().form_valid(form)
-    
+        return redirect(self.get_success_url())
+
     def get_success_url(self):
         referer = self.request.META.get("HTTP_REFERER")
         if referer:

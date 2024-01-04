@@ -11,8 +11,6 @@
         <a href="{% url 'item' item.item.slug %}"><p>{{ item.item.name }}</p></a>
         <form method="post" action="{% url 'add_to_cart' item.item.id %}">
             {% csrf_token %}
-            <p>{{ form.non_field_errors }}</p>
-            {{ form.quantity }}
             <button type="submit">Submit</button>
         </form> 
         <p>----------------------------</p>
