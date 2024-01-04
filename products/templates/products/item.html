@@ -4,11 +4,18 @@
     <p>Товар:</p>
     {% if item.is_in_cart %}
         <p>----------------------------</p>
-        <p>{{ item.item }}</p>
+        <p>{{ item.item.name }}</p>
+        {% if item.item.photo %}
+            <p><img src="{{ item.item.photo.url }}" width=100></p>
+        {% endif %}
+        <a href="{% url 'cart' %}">Перейти в корзину</a>
         <p>----------------------------</p>
     {% else %}
         <p>----------------------------</p>
-        <a href="{% url 'item' item.item.slug %}"><p>{{ item.item.name }}</p></a>
+        <p>{{ item.item.name }}</p>
+        {% if item.item.photo %}
+            <p><img src="{{ item.item.photo.url }}" width=100></p>
+        {% endif %}
         <form method="post" action="{% url 'add_to_cart' item.item.id %}">
             {% csrf_token %}
             <button type="submit">Submit</button>

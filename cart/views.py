@@ -19,7 +19,6 @@ class AddToCart(View):
             if not self.request.session.get("cart"):
                 self.request.session["cart"] = []
             self.request.session["cart"].append({"item": item.id, "quantity": 1})
-            print(self.request.session["cart"])
         return redirect(self.get_success_url())
 
     def get_success_url(self):

@@ -16,7 +16,6 @@ class ProductsHome(TemplateView):
     }
     
     def get_context_data(self, **kwargs):
-        print(self.request.session)
         context =  super().get_context_data(**kwargs)
         items_anon = Item.published.all().select_related("item_category")
         items = []
