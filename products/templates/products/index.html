@@ -19,7 +19,7 @@
     {% for item in items %}
         {% if item.is_in_cart %}
             <p>----------------------------</p>
-            <p>{{ item.item }}</p>
+            <a href="{% url 'item' item.item.slug %}"><p>{{ item.item }}</p></a>
             {% if item.item.photo %}
                 <p><img src="{{ item.item.photo.url }}" width=100></p>
             {% endif %}

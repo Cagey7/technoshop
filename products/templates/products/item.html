@@ -9,7 +9,7 @@
     {% else %}
         <p>----------------------------</p>
         <a href="{% url 'item' item.item.slug %}"><p>{{ item.item.name }}</p></a>
-        <form method="post" action="{% url 'add-to-cart' item.item.id %}">
+        <form method="post" action="{% url 'add_to_cart' item.item.id %}">
             {% csrf_token %}
             <p>{{ form.non_field_errors }}</p>
             {{ form.quantity }}

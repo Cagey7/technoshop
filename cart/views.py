@@ -107,7 +107,6 @@ class DecreaseQuantityAnon(View):
     def post(self, request, *args, **kwargs):
         cart = self.request.session["cart"]
         item_id=kwargs.get("pk")
-        amount_available = Item.objects.get(id=item_id).quantity
         for item in cart:
             if item["item"] == item_id:
                 if item["quantity"] > 1:

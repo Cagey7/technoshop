@@ -11,6 +11,9 @@ class Cart(models.Model):
         verbose_name = "Корзина"
         verbose_name_plural = "Корзина"
 
+    def item_in_cart(self, item_id):
+        return self.cartitem_set.filter(item__id=item_id).exists()
+
     def __str__(self):
         return f"Пользователь товара: {self.user}"
 
