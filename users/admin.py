@@ -2,14 +2,14 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.contrib.auth import get_user_model
-
+from .models import Address
 
 
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = get_user_model()
-    list_display = ("email", "is_staff", "is_active",)
+    list_display = ("email", "is_staff", "is_active", )
     list_filter = ("email", "is_staff", "is_active",)
     fieldsets = (
         (None, {"fields": ("email", "password")}),
@@ -29,3 +29,9 @@ class CustomUserAdmin(UserAdmin):
 
 
 admin.site.register(get_user_model(), CustomUserAdmin)
+
+
+@admin.register(Address)
+class CartAdmin(admin.ModelAdmin):
+    list_display = ("info", "user")
+    list_per_page = 10

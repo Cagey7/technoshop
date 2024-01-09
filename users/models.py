@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth import get_user_model
 
 
 class UserManager(BaseUserManager):
@@ -33,7 +34,6 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 
-
 class User(AbstractUser):
     username = None
     email = models.EmailField(_('email address'), unique=True)
@@ -42,3 +42,12 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
+
+class Address(models.Model):
+    info = models.CharField(max_length=511, verbose_name="Адрес")
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name="Пользователь")
+    
+    class Meta:
+        verbose_name = "Адреса"
+        verbose_name_plural = "Адреса"
