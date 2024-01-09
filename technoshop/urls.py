@@ -28,7 +28,8 @@ urlpatterns = [
     path("", include("users.urls")),
     path("", include("django.contrib.auth.urls")),
     path("", include("products.urls")),
-    path("", include("cart.urls"))
+    path("", include("cart.urls")),
+    path("", include("sales.urls"))
 ]
 
 if sys.argv[2] == "--settings=technoshop.settings.local": 
