@@ -33,5 +33,6 @@ admin.site.register(get_user_model(), CustomUserAdmin)
 
 @admin.register(Address)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ("info", "user")
+    list_display = ("info", "user", "default")
+    list_editable = ("default", )
     list_per_page = 10

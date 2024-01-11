@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import DeleteView
+from users.models import Address
 from django.views import View
 from .models import Cart, CartItem
 from products.models import Item
@@ -40,6 +41,7 @@ class CartPage(TemplateView):
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
+            context["addresses"] = Address.objects.filter(user=self.request.user)
             cart = Cart.objects.get(user=self.request.user)
             cart_items = CartItem.objects.filter(cart=cart).order_by("id")
             for cart_item in cart_items:

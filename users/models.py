@@ -47,6 +47,7 @@ class User(AbstractUser):
 class Address(models.Model):
     info = models.CharField(max_length=511, verbose_name="Адрес")
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name="Пользователь")
+    default = models.BooleanField(default=False, verbose_name="Адрес по умолчанию")
     
     class Meta:
         verbose_name = "Адреса"

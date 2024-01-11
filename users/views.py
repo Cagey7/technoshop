@@ -1,6 +1,9 @@
 from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView
+from django.views import View
+from users.models import Address
 from cart.models import Cart, CartItem
 from products.models import Item
 from .forms import *
@@ -52,3 +55,13 @@ class RegisterUser(CreateView):
         cart = Cart(user_id=user_id)
         cart.save()
         return HttpResponseRedirect(self.get_success_url())
+
+
+class AddAddress(View):
+    def post(self, request, *args, **kwargs):
+        address_input = request.POST.get("address")
+        user = self.request.user
+        Address.objects.filter(user=user).update(default=False)
+        address = Address(user=user, info=address_input, default=True)
+        address.save()
+        return redirect("cart")

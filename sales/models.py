@@ -2,12 +2,14 @@ from django.db import models
 from core.models import TimeStampedModel
 from users.models import User
 from products.models import Item
+from users.models import Address
 
 
 class Order(TimeStampedModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
     items = models.ManyToManyField(Item, through="Purchase", related_name="order_items", verbose_name="Товары")
     order_status = models.ForeignKey("OrderStatus", on_delete=models.PROTECT, verbose_name = "Статус заказа")
+    address = models.OneToOneField(Address, on_delete=models.SET_NULL, null=True, verbose_name="Адрес")
 
     class Meta:
         verbose_name = "Заказ"
