@@ -3,77 +3,84 @@
 {% block body %}
     <p>Корзина:</p>
     {% if user.is_authenticated %}
-        {% for cart_item in cart_items %}
-            <p>----------------------------</p>
-            <form method="post" action="{% url 'delete_cart_item' cart_item.pk %}">
-                {% csrf_token %}
-                <input type="submit" value="Да, удалить">
-            </form>
-            <form method="post" action="{% url 'increase_by_one' cart_item.pk %}">
-                {% csrf_token %}
-                <button type="submit">+</button>
-            </form>
-            <form method="post" action="{% url 'decrease_by_one' cart_item.pk %}">
-                {% csrf_token %}
-                <button type="submit">-</button>
-            </form>
-            <p>Количество в корзине {{ cart_item.quantity }}</p>
-            <p>{{ cart_item.item.name }}</p>
-            <p>Доступно: {{ cart_item.item.quantity }}</p>
-            <p>----------------------------</p>
-        {% endfor %}
+        {% if cart_items %}
+            {% for cart_item in cart_items %}
+                <p>----------------------------</p>
+                <form method="post" action="{% url 'delete_cart_item' cart_item.pk %}">
+                    {% csrf_token %}
+                    <input type="submit" value="Да, удалить">
+                </form>
+                <form method="post" action="{% url 'increase_by_one' cart_item.pk %}">
+                    {% csrf_token %}
+                    <button type="submit">+</button>
+                </form>
+                <form method="post" action="{% url 'decrease_by_one' cart_item.pk %}">
+                    {% csrf_token %}
+                    <button type="submit">-</button>
+                </form>
+                <p>Количество в корзине {{ cart_item.quantity }}</p>
+                <p>{{ cart_item.item.name }}</p>
+                <p>Доступно: {{ cart_item.item.quantity }}</p>
+                <p>----------------------------</p>
+            {% endfor %}
+        
+
+            {% if addresses %}
+                <form method="post" action="{% url 'add_address' %}">
+                    {% csrf_token %}
+                    <label for="address">Изменить адрес:</label>
+                    <input type="text" name="address">
+                    <input type="submit" value="Submit">
+                </form>
+                <form method="post" action="{% url 'make_an_order' %}">
+                    {% csrf_token %}
+                    <label for="address">Выберите адрес:</label>
+                    <select id="address" name="address">
+                        {% for address in addresses %}
+                            {% if address.default %}
+                                <option selected="selected" value="{{ address.id }}">{{ address.info }}</option>
+                            {% else %}
+                                <option value="{{ address.id }}">{{ address.info }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <input type="submit" value="Купить">
+                </form>
+            {% else %}
+                <form method="post" action="{% url 'add_address' %}">
+                    {% csrf_token %}
+                    <label for="address">Введите адрес:</label>
+                    <input type="text" name="address">
+                    <input type="submit" value="Submit">
+                </form>
+            {% endif %}
+        {% else %}
+            <h1> Коризна пуста </h1>
+        {% endif %}
     {% else %}
             
-    {% for cart_item in cart_items %}
-        <p>----------------------------</p>
-        {% for item in cart_item.item %}
-            <form method="post" action="{% url 'delete_cart_item_anon' item.pk %}">
-                {% csrf_token %}
-                <input type="submit" value="Удалить">
-            </form>
-            <form method="post" action="{% url 'increase_by_one_anon' item.pk %}">
-                {% csrf_token %}
-                <button type="submit">+</button>
-            </form>
-            <form method="post" action="{% url 'decrease_by_one_anon' item.pk %}">
-                {% csrf_token %}
-                <button type="submit">-</button>
-            </form>
-            <p>Количество в корзине {{ cart_item.quantity }}</p>
-            <p>{{ item.name }}</p>
-            <p>Доступно: {{ item.quantity }}</p>
-        {% endfor %}
-        <p>----------------------------</p>
-    {% endfor %}
-
-    {% endif %}
-    
-    {% if user.is_authenticated %}
-
-    <form method="post" action="">
-        {% csrf_token %}
-    
-        <label for="address">Choose an address:</label>
-        <select id="address" name="address">
-            {% for address in addresses %}
-                {% if address.default %}
-                    <option selected="selected" value="{{ address.id }}">{{ address.info }}</option>
-                {% else %}
-                    <option value="{{ address.id }}">{{ address.info }}</option>
-                {% endif %}
+        {% for cart_item in cart_items %}
+            <p>----------------------------</p>
+            {% for item in cart_item.item %}
+                <form method="post" action="{% url 'delete_cart_item_anon' item.pk %}">
+                    {% csrf_token %}
+                    <input type="submit" value="Удалить">
+                </form>
+                <form method="post" action="{% url 'increase_by_one_anon' item.pk %}">
+                    {% csrf_token %}
+                    <button type="submit">+</button>
+                </form>
+                <form method="post" action="{% url 'decrease_by_one_anon' item.pk %}">
+                    {% csrf_token %}
+                    <button type="submit">-</button>
+                </form>
+                <p>Количество в корзине {{ cart_item.quantity }}</p>
+                <p>{{ item.name }}</p>
+                <p>Доступно: {{ item.quantity }}</p>
             {% endfor %}
-        </select>
-    
-        <input type="submit" value="Submit">
-    </form>
-
-    <form method="post" action="{% url 'add_address' %}">
-        {% csrf_token %}
-        <label for="address">Address:</label>
-        <input type="text" name="address">
-        <input type="submit" value="Submit">
-    </form>
-
+            <p>----------------------------</p>
+        {% endfor %}
 
     {% endif %}
 

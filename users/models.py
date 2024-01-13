@@ -52,3 +52,6 @@ class Address(models.Model):
     class Meta:
         verbose_name = "Адреса"
         verbose_name_plural = "Адреса"
+    
+    def __str__(self):
+        return f"{self.info}"
