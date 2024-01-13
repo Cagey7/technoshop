@@ -18,6 +18,7 @@ class MakeAnOrder(View):
         
         for cart_item in cart_items:
             Purchase.objects.create(order=order, quantity=cart_item.quantity, item=cart_item.item)
+            cart_item.item.decrease_quantity(cart_item.quantity)
             cart_item.delete()
 
         return redirect("cart")

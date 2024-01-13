@@ -37,6 +37,12 @@ class Item(TimeStampedModel):
         cart = Cart.objects.get(user=user)
         return cart.items.filter(pk=self.pk).exists()
 
+    def decrease_quantity(self, num):
+        self.quantity -= num
+        if self.quantity <= 0:
+            self.is_published = self.Status.OFF_STOCK
+        self.save()
+
     def get_absolute_url(self):
         return reverse("products", kwargs={"slug":self.slug})
 
