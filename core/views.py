@@ -10,6 +10,7 @@ navbar_auth = [
 ]
 navbar_not_auth = [
     {"title":"Главная страница", "url_name": "index"},
+    {"title":"Профиль", "url_name": "profile"},
     {"title":"Корзина", "url_name": "cart"},
     {"title":"Выйти", "url_name": "logout"}
 ]

@@ -3,12 +3,15 @@ from django.shortcuts import redirect
 from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView
 from django.views import View
+from django.views.generic import TemplateView
 from users.models import Address
 from cart.models import Cart, CartItem
+from sales.models import Order
 from products.models import Item
 from .forms import *
 from django.urls import reverse_lazy
 from core.views import navbar_auth, navbar_not_auth
+
 
 class LoginUser(LoginView):
     form_class = LoginUserForm
@@ -65,3 +68,17 @@ class AddAddress(View):
         address = Address(user=user, info=address_input, default=True)
         address.save()
         return redirect("cart")
+
+
+class UserProfile(TemplateView):
+    template_name = "users/profile.html"
+    extra_context = {
+        "title": "Профиль",
+        "navbar_auth": navbar_auth,
+        "navbar_not_auth": navbar_not_auth,
+    }
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["orders"] = Order.objects.filter(user=self.request.user)
+        return context
