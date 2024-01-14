@@ -1,13 +1,13 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import Item, Category
+from .models import Item, Category, Chapter, Brand
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ("name", "price", "quantity", "is_published", "post_photo", "item_category", "created", )
+    list_display = ("name", "price", "quantity", "is_published", "post_photo", "item_category", "created", "item_brand")
     list_display_links = ("name", )
     ordering = ("created", )
-    list_editable = ("is_published", "item_category", "quantity")
+    list_editable = ("is_published", "item_category", "quantity", "item_brand")
     list_per_page = 10
     actions = ("set_in_stock", "set_off_stock")
     search_fields = ("name", "item_category__name")
@@ -46,6 +46,33 @@ class ItemAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    list_display = ("name", "post_photo", "category_chapter")
+    list_display_links = ("name", )
+    list_editable = ("category_chapter", )
+    readonly_fields = ("post_photo", )
+
+    @admin.display(description="Просмотр")
+    def post_photo(self, category):
+        if category.photo:
+            return mark_safe(f"<img src='{category.photo.url}' width=100>")
+        return "Без фото"
+
+
+@admin.register(Chapter)
+class ChapterAdmin(admin.ModelAdmin):
+    list_display = ("name", "post_photo")
+    list_display_links = ("name", )
+    readonly_fields = ("post_photo", )
+
+    @admin.display(description="Просмотр")
+    def post_photo(self, category):
+        if category.photo:
+            return mark_safe(f"<img src='{category.photo.url}' width=100>")
+        return "Без фото"
+
+
+@admin.register(Brand)
+class BrandAdmin(admin.ModelAdmin):
     list_display = ("name", "post_photo")
     list_display_links = ("name", )
     readonly_fields = ("post_photo", )
