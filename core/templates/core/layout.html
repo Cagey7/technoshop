@@ -21,17 +21,43 @@
                 {% if request.user.is_authenticated %}
                     <ul class="navbar-nav ml-auto">
                         {% for n in navbar_not_auth %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url n.url_name %}">{{ n.title }}</a>
-                            </li>
+                            {% if n.catalog %} 
+                                <div class="dropdown nav-item">
+                                    <button class="btn dropdown-toggle nav-link" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ n.title }}
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        {% for chapter in chapters %}
+                                            <li><a class="dropdown-item" href="{% url 'chapter' chapter.slug %}">{{ chapter.name }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url n.url_name %}">{{ n.title }}</a>
+                                </li>
+                            {% endif %}
                         {% endfor %}
                     </ul>
                 {% else %}
                     <ul class="navbar-nav ml-auto">
                         {% for n in navbar_auth %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url n.url_name %}">{{ n.title }}</a>
-                            </li>
+                            {% if n.catalog %}
+                                <div class="dropdown nav-item">
+                                    <button class="btn dropdown-toggle nav-link" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ n.title }}
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        {% for chapter in chapters %}
+                                            <li><a class="dropdown-item" href="{% url 'chapter' chapter.slug %}">{{ chapter.name }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url n.url_name %}">{{ n.title }}</a>
+                                </li>
+                            {% endif %}
                         {% endfor %}
                     </ul>
                 {% endif %}

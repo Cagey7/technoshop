@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 from users.models import Address
 from cart.models import Cart, CartItem
 from sales.models import Order, Purchase
+from products.models import Chapter
 from core.views import navbar_auth, navbar_not_auth
 
 
@@ -31,6 +32,7 @@ class SuccessOrder(TemplateView):
         "title": "Спасибо за покупку",
         "navbar_auth": navbar_auth,
         "navbar_not_auth": navbar_not_auth,
+        "chapters": Chapter.objects.all(),
     }
 
 
@@ -40,6 +42,7 @@ class OrderInfo(TemplateView):
         "title": "Спасибо за покупку",
         "navbar_auth": navbar_auth,
         "navbar_not_auth": navbar_not_auth,
+        "chapters": Chapter.objects.all(),
     }
     
     def get_context_data(self, **kwargs):

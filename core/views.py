@@ -3,11 +3,13 @@ from django.shortcuts import render
 
 
 navbar_auth = [
+    {"title":"Каталог", "catalog": True},
     {"title":"Корзина", "url_name": "cart"},
     {"title":"Логин", "url_name": "login"},
     {"title":"Регистрация", "url_name": "register"},
 ]
 navbar_not_auth = [
+    {"title":"Каталог", "catalog": True},
     {"title":"Профиль", "url_name": "profile"},
     {"title":"Корзина", "url_name": "cart"},
     {"title":"Выйти", "url_name": "logout"}

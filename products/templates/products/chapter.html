@@ -1,0 +1,40 @@
+{% extends "core/layout.html" %}
+
+{% block body %}
+    <h1>Главная страница</h1>
+    <h2>Привет, {{ user.email }}</h2>
+    {% for category in categories %}
+        {% if category.id == selected_category %}
+            <p>{{ category.name }}</p>
+        {% else %}
+            <p><a href="{% url 'category' category.slug %}">{{ category.name }}</a></p>
+        {% endif %}
+    {% endfor %}
+
+    {% for item in items %}
+        {% if item.is_in_cart %}
+            <p>----------------------------</p>
+            <a href="{% url 'item' item.item.slug %}"><p>{{ item.item }}</p></a>
+            {% if item.item.photo %}
+                <p><img src="{{ item.item.photo.url }}" width=100></p>
+            {% endif %}
+            <p>Цена: {{ item.item.price }}</p>
+            <a href="{% url 'cart' %}">Перейти в корзину</a>
+            <p>----------------------------</p>
+        {% else %}
+            <p>----------------------------</p>
+            <a href="{% url 'item' item.item.slug %}"><p>{{ item.item.name }}</p></a>
+            {% if item.item.photo %}
+                <p><img src="{{ item.item.photo.url }}" width=100></p>
+            {% endif %}
+            <p>Цена: {{ item.item.price }}</p>
+            <form method="post" action="{% url 'add_to_cart' item.item.id %}">
+                {% csrf_token %}
+                <button type="submit">Submit</button>
+            </form> 
+            <p>----------------------------</p>
+        {% endif %}
+
+    {% endfor %}
+
+{% endblock %}

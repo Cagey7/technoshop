@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 from users.models import Address
 from cart.models import Cart, CartItem
 from sales.models import Order
-from products.models import Item
+from products.models import Item, Chapter
 from .forms import *
 from django.urls import reverse_lazy
 from core.views import navbar_auth, navbar_not_auth
@@ -49,7 +49,8 @@ class RegisterUser(CreateView):
     success_url = reverse_lazy("login")
     extra_context = {
         "navbar_auth": navbar_auth,
-        "navbar_not_auth": navbar_not_auth
+        "navbar_not_auth": navbar_not_auth,
+        "chapters": Chapter.objects.all(),
     }
 
     def form_valid(self, form):
@@ -76,6 +77,7 @@ class UserProfile(TemplateView):
         "title": "Профиль",
         "navbar_auth": navbar_auth,
         "navbar_not_auth": navbar_not_auth,
+        "chapters": Chapter.objects.all(),
     }
 
     def get_context_data(self, *args, **kwargs):

@@ -68,6 +68,7 @@ class Chapter(models.Model):
         verbose_name_plural = "Разделы"
     
     name = models.CharField(max_length=127, db_index=True)
+    slug = models.SlugField(max_length=255, unique=True, db_index=True)
     photo = models.ImageField(upload_to="images/chapters/%Y/%m/%d", default=None, blank=True, null=True, verbose_name="Изображение")
     
     def __str__(self):
