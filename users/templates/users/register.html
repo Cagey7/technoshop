@@ -1,36 +1,35 @@
 {% extends "core/layout.html" %}
+{% load static %}
 
 {% block body %}
-    <main>
-        <form method="post" action="{% url 'register' %}" style="max-width: 400px; margin: 0 auto;">
-            {% csrf_token %}
-            <h2 class="mb-2">Регистрация</h2>
+    <form class="auth_form" method="post" action="{% url 'register' %}">
+        {% csrf_token %}
+        <h2 class="mb-2">Регистрация</h2>
 
-            <div class="mb-2">
-                <label for="email" class="form-label">Email:</label>
-                <input type="email" id="email" name="email" class="form-control" style="width: 100%;">
-                {% if form.email.errors %}
-                    <div style="color: red;">{{ form.email.errors }}</div>
-                {% endif %}
-            </div>
+        <div class="mb-2">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" id="email" name="email" class="form-control auth_input">
+            {% if form.email.errors %}
+                <div class="auth_error_msg">{{ form.email.errors }}</div>
+            {% endif %}
+        </div>
 
-            <div class="mb-2">
-                <label for="password1" class="form-label">Пароль:</label>
-                <input type="password" id="password1" name="password1" class="form-control" style="width: 100%;">
-                {% if form.password1.errors %}
-                    <div style="color: red;">{{ form.password1.errors }}</div>
-                {% endif %}
-            </div>
+        <div class="mb-2">
+            <label for="password1" class="form-label">Пароль:</label>
+            <input type="password" id="password1" name="password1" class="form-control auth_input">
+            {% if form.password1.errors %}
+                <div class="auth_error_msg">{{ form.password1.errors }}</div>
+            {% endif %}
+        </div>
 
-            <div class="mb-2">
-                <label for="password2" class="form-label">Подтверждение пароля:</label>
-                <input type="password" id="password2" name="password2" class="form-control" style="width: 100%;">
-                {% if form.password2.errors %}
-                    <div style="color: red;">{{ form.password2.errors }}</div>
-                {% endif %}
-            </div>
+        <div class="mb-2">
+            <label for="password2" class="form-label">Подтверждение пароля:</label>
+            <input type="password" id="password2" name="password2" class="form-control auth_input">
+            {% if form.password2.errors %}
+                <div class="auth_error_msg">{{ form.password2.errors }}</div>
+            {% endif %}
+        </div>
 
-            <button type="submit" class="btn btn-primary mt-2">Регистрация</button>
-        </form>
-    </main>
+        <button class="auth_button" type="submit" class="btn btn-primary mt-2">Регистрация</button>
+    </form>
 {% endblock %}

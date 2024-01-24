@@ -1,44 +1,45 @@
 {% extends "core/layout.html" %}
+{% load static %}
 
 {% block body %}
-    <main>
-        <form method="post" action="{% url 'login' %}" style="max-width: 400px; margin: 0 auto;">
-            {% csrf_token %}
-            <h2 class="mb-2">Вход</h2>
 
-            {% if form.errors %}
-                <p style="color: red;">Ваше имя пользователя и пароль не совпали. Пожалуйста, попробуйте еще раз.</p>
+    <form class="auth_form" method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <h2 class="mb-2">Вход</h2>
+
+        {% if form.errors %}
+            <p class="auth_error_msg">Ваше имя пользователя и пароль не совпали. Пожалуйста, попробуйте еще раз.</p>
+        {% endif %}
+
+        {% if next %}
+            {% if user.is_authenticated %}
+                <p class="auth_error_msg">У вашей учетной записи нет доступа к этой странице. Чтобы продолжить, войдите в учетную запись, у которой есть доступ.</p>
+            {% else %}
+                <p class="auth_error_msg">Пожалуйста, войдите, чтобы увидеть эту страницу.</p>
             {% endif %}
+        {% endif %}
 
-            {% if next %}
-                {% if user.is_authenticated %}
-                    <p style="color: red;">У вашей учетной записи нет доступа к этой странице. Чтобы продолжить, войдите в учетную запись, у которой есть доступ.</p>
-                {% else %}
-                    <p style="color: red;">Пожалуйста, войдите, чтобы увидеть эту страницу.</p>
-                {% endif %}
+        <div class="mb-2">
+            <label for="username" class="form-label">Имя пользователя:</label>
+            <input type="text" id="username" name="username" class="form-control auth_input">
+            {% if form.username.errors %}
+                <p class="auth_error_msg">{{ form.username.errors }}</p>
             {% endif %}
+        </div>
 
-            <div class="mb-2">
-                <label for="username" class="form-label">Имя пользователя:</label>
-                <input type="text" id="username" name="username" class="form-control">
-                {% if form.username.errors %}
-                    <p style="color: red;">{{ form.username.errors }}</p>
-                {% endif %}
-            </div>
+        <div class="mb-2">
+            <label for="password" class="form-label">Пароль:</label>
+            <input type="password" id="password" name="password" class="form-control auth_input">
+            {% if form.password.errors %}
+                <p class="auth_error_msg">{{ form.password.errors }}</p>
+            {% endif %}
+        </div>
 
-            <div class="mb-2">
-                <label for="password" class="form-label">Пароль:</label>
-                <input type="password" id="password" name="password" class="form-control">
-                {% if form.password.errors %}
-                    <p style="color: red;">{{ form.password.errors }}</p>
-                {% endif %}
-            </div>
+        {# Assumes you set up the password_reset view in your URLconf #}
+        <p class="mt-1"><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
 
-            {# Assumes you set up the password_reset view in your URLconf #}
-            <p class="mt-1"><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
+        <button class="auth_button" type="submit" class="btn btn-primary mt-2">Войти</button>
+        <input type="hidden" name="next" value="{{ next }}">
+    </form>
 
-            <button type="submit" class="btn btn-primary mt-2">Войти</button>
-            <input type="hidden" name="next" value="{{ next }}">
-        </form>
-    </main>
 {% endblock %}
