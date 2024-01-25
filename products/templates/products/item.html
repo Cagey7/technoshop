@@ -1,41 +1,40 @@
 {% extends "core/layout.html" %}
 
 {% block body %}
-    <p>Товар:</p>
     {% if item.is_in_cart %}
-        <p>----------------------------</p>
-        <p>{{ item.item.name }}</p>
-        {% if item.item.photo %}
-            <p><img src="{{ item.item.photo.url }}" width=100></p>
-        {% endif %}
-        <a href="{% url 'cart' %}">Перейти в корзину</a>
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="..." alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-        <p>----------------------------</p>
+		<h4>{{ item.item.name }}</h4>
+		<div class="container">
+			<div class="row">
+				<div class="col-6">
+					{% if item.item.photo %}
+						<img src="{{ item.item.photo.url }}" width=400>
+					{% endif %}
+				</div>
+				<div class="col-6">
+					<h3>{{ item.item.price }} тг</h3>
+					<form action="{% url 'cart' %}">
+						<button class="btn btn-success" type="submit">Перейти в корзину</button>
+					</form>
+				</div>
+			</div>
+		</div>
     {% else %}
-        <p>----------------------------</p>
-        <p>{{ item.item.name }}</p>
-        {% if item.item.photo %}
-            <p><img src="{{ item.item.photo.url }}" width=100></p>
-        {% endif %}
-        <form method="post" action="{% url 'add_to_cart' item.item.id %}">
-            {% csrf_token %}
-            <button type="submit">Submit</button>
-        </form>
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="..." alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-        <p>----------------------------</p>
+		<h4>{{ item.item.name }}</h4>
+		<div class="container">
+			<div class="row">
+				<div class="col-6">
+					{% if item.item.photo %}
+						<img src="{{ item.item.photo.url }}" width=400>
+					{% endif %}
+				</div>
+				<div class="col-6">
+					<h3>{{ item.item.price }} тг</h3>
+					<form method="post" action="{% url 'add_to_cart' item.item.id %}">
+						{% csrf_token %}
+						<button class="btn btn-primary" type="submit">В коризну</button>
+					</form>
+				</div>
+			</div>
+		</div>
     {% endif %}
 {% endblock %}

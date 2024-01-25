@@ -19,7 +19,8 @@ class LoginUser(LoginView):
     redirect_authenticated_user = True
     extra_context = {
         "navbar_auth": navbar_auth,
-        "navbar_not_auth": navbar_not_auth
+        "navbar_not_auth": navbar_not_auth,
+        "chapters": Chapter.objects.all(),
     }
 
     def form_valid(self, form):

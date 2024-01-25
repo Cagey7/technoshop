@@ -2,26 +2,70 @@
 
 {% block body %}
     <p>Корзина:</p>
+
+
     {% if user.is_authenticated %}
         {% if cart_items %}
             {% for cart_item in cart_items %}
-                <p>----------------------------</p>
-                <form method="post" action="{% url 'delete_cart_item' cart_item.pk %}">
-                    {% csrf_token %}
-                    <input type="submit" value="Да, удалить">
-                </form>
-                <form method="post" action="{% url 'increase_by_one' cart_item.pk %}">
-                    {% csrf_token %}
-                    <button type="submit">+</button>
-                </form>
-                <form method="post" action="{% url 'decrease_by_one' cart_item.pk %}">
-                    {% csrf_token %}
-                    <button type="submit">-</button>
-                </form>
-                <p>Количество в корзине {{ cart_item.quantity }}</p>
-                <p>{{ cart_item.item.name }}</p>
-                <p>Доступно: {{ cart_item.item.quantity }}</p>
-                <p>----------------------------</p>
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="row align-items-center">
+                        <div class="col-md-2">
+                            <img src="{{ cart_item.item.photo.url }}" width="100">
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-left">{{ cart_item.item.name }}</p>
+                            <form method="post" action="{% url 'delete_cart_item' cart_item.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" style="border: none; background-color: transparent;">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="col-md-2">{{ cart_item.item.price }} тг</div>
+                        <div class="col-md-2">
+                            <div class="row">
+                                <div class="col">
+                                    {% if cart_item.quantity == 1 %}
+                                    <form method="post" action="{% url 'decrease_by_one' cart_item.pk %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-outline-secondary btn-sm " style="font-weight: bold; width: 30px" type="submit" disabled>-</button>
+                                    </form>
+                                    {% else %}
+                                    <form method="post" action="{% url 'decrease_by_one' cart_item.pk %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-outline-primary btn-sm" style="font-weight: bold; width: 30px;" type="submit">-</button>
+                                    </form>
+                                    {% endif %}
+                                </div>
+                                <div class="col">
+                                    {{ cart_item.quantity }}
+                                </div>
+                                <div class="col">
+                                    {% if cart_item.quantity == cart_item.item.quantity %}
+                                    <form method="post" class="text-left" action="{% url 'increase_by_one' cart_item.pk %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-outline-secondary btn-sm " style="font-weight: bold; width: 30px;" type="submit" disabled>+</button>
+                                    </form>
+                                    {% else %}
+                                    <form method="post" class="text-left" action="{% url 'increase_by_one' cart_item.pk %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-outline-primary btn-sm " style="font-weight: bold; width: 30px;" type="submit">+</button>
+                                    </form>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <!-- Какие-то элементы в правой части (при необходимости) -->
+                </div>
+            </div>
+            <br>
+
+
             {% endfor %}
         
 
@@ -59,7 +103,6 @@
             <h1> Коризна пуста </h1>
         {% endif %}
     {% else %}
-            
         {% for cart_item in cart_items %}
             <p>----------------------------</p>
             {% for item in cart_item.item %}
@@ -69,11 +112,11 @@
                 </form>
                 <form method="post" action="{% url 'increase_by_one_anon' item.pk %}">
                     {% csrf_token %}
-                    <button type="submit">+</button>
+                    <button class="btn btn-outline-primary btn-sm" style="font-weight: bold; width: 30px" type="submit">+</button>
                 </form>
                 <form method="post" action="{% url 'decrease_by_one_anon' item.pk %}">
                     {% csrf_token %}
-                    <button type="submit">-</button>
+                    <button class="btn btn-outline-primary btn-sm" style="font-weight: bold; width: 30px" type="submit">-</button>
                 </form>
                 <p>Количество в корзине {{ cart_item.quantity }}</p>
                 <p>{{ item.name }}</p>

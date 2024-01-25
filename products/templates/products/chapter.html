@@ -1,50 +1,73 @@
 {% extends "core/layout.html" %}
 
 {% block body %}
-    <h1>Главная страница</h1>
-    <h2>Привет, {{ user.email }}</h2>
-    {% if selected_category is None or selected_category == 0 %}
-        <p>Все категории</p>
-    {% else %}
-        <a href="{% url 'index' %}">Все категории</a>
-    {% endif %}
-    {% for category in categories %}
-        {% if category.id == selected_category %}
-            <p>{{ category.name }}</p>
-        {% else %}
-            <p><a href="{% url 'category' category.slug %}">{{ category.name }}</a></p>
-        {% endif %}
-    {% endfor %}
-
-    {% for item in items %}
-        {% if item.is_in_cart %}
-            <div class="card" style="width: 16rem;">
-                <img class="card-img-top" src="{{ item.item.photo.url }}" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">{{ item.item.price }} тг</h5>
-                    <a href="{% url 'item' item.item.slug %}"><p class="card-text">{{ item.item.name }}</p></a>
-                    <form action="{% url 'cart' %}">
-                        <button class="btn btn-primary" type="submit">Перейти в корзину</button>
-                    </form>
+    <h1>{{ categories.0.category_chapter.name }}</h1>
+    <div class="row">
+        <div class="col-3">
+            <ul class="list-group">
+                {% if selected_category is None or selected_category == 0 %}
+                    <li class="list-group-item active" style="background-color: #3577da;">Все категории</li>
+                {% else %}
+                    <a href="{% url 'chapter' categories.0.category_chapter.slug %}" style="text-decoration: none;"><li class="list-group-item">Все категории</li></a>
+                {% endif %}
+                {% for category in categories %}
+                    {% if category.id == selected_category %}
+                        <li class="list-group-item active" style="background-color: #3577da;">{{ category.name }}</li>
+                    {% else %}
+                        <a href="{% url 'category' category.slug %}" style="text-decoration: none;"><li class="list-group-item">{{ category.name }}</li></a>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-9">
+            <div class="container">
+                <div class="row">
+                    {% for item in items %}
+                        {% if item.is_in_cart %}
+                            <div class="col-sm-4">
+                                <div class="card" style="width: 14rem;">
+                                    <a href="{% url 'item' item.item.slug %}">
+                                        <img class="card-img-top" src="{{ item.item.photo.url }}">
+                                    </a>
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ item.item.price }} тг</h5>
+                                        <a class="link_text" href="{% url 'item' item.item.slug %}">
+                                            <p class="card-text">{{ item.item.name }}</p>
+                                        </a>
+                                        <br>
+                                        <form action="{% url 'cart' %}">
+                                            <button class="btn go_cart" type="submit">Перейти в корзину</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="col-sm-4">
+                                <div class="card" style="width: 14rem;">
+                                    <a href="{% url 'item' item.item.slug %}">
+                                        <img class="card-img-top" src="{{ item.item.photo.url }}">
+                                    </a>
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ item.item.price }} тг</h5>
+                                        <a class="link_text" href="{% url 'item' item.item.slug %}">
+                                            <p class="card-text" >{{ item.item.name }}</p>
+                                        </a>
+                                        <br>
+                                        <form method="post" action="{% url 'add_to_cart' item.item.id %}">
+                                            {% csrf_token %}
+                                            <button class="btn button_style" type="submit">В коризну</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
-        {% else %}
+        </div>
+    </div>
 
 
-            <div class="card" style="width: 16rem;">
-                <img class="card-img-top" src="{{ item.item.photo.url }}" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">{{ item.item.price }} тг</h5>
-                    <a href="{% url 'item' item.item.slug %}"><p class="card-text">{{ item.item.name }}</p></a>
 
-                    <form method="post" action="{% url 'add_to_cart' item.item.id %}">
-                        {% csrf_token %}
-                        <button class="btn btn-primary" type="submit">В коризну</button>
-                    </form>
-                </div>
-            </div>
-        {% endif %}
-
-    {% endfor %}
 
 {% endblock %}

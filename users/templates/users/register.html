@@ -1,5 +1,4 @@
 {% extends "core/layout.html" %}
-{% load static %}
 
 {% block body %}
     <form class="auth_form" method="post" action="{% url 'register' %}">
@@ -30,6 +29,6 @@
             {% endif %}
         </div>
 
-        <button class="auth_button" type="submit" class="btn btn-primary mt-2">Регистрация</button>
+        <button class="auth_button" type="submit" class="btn mt-2">Регистрация</button>
     </form>
 {% endblock %}

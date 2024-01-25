@@ -20,7 +20,7 @@ class Item(TimeStampedModel):
     name = models.CharField(max_length=255, verbose_name="Наименование")
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="Slug")
     desc = models.TextField(blank=True, verbose_name="Описание товара")
-    item_brand = models.ForeignKey("Brand", on_delete=models.PROTECT, null=True, verbose_name="Бренд")
+    item_brand = models.ForeignKey("Brand", on_delete=models.PROTECT, null=True, blank=True, verbose_name="Бренд")
     price = models.IntegerField(null=False, verbose_name="Цена")
     quantity = models.IntegerField(null=False, verbose_name="Количество")
     is_published = models.IntegerField(choices=Status.choices, default=Status.IN_STOCK, verbose_name="Статус")

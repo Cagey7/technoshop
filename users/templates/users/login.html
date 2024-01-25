@@ -1,5 +1,5 @@
 {% extends "core/layout.html" %}
-{% load static %}
+
 
 {% block body %}
 
@@ -38,7 +38,7 @@
         {# Assumes you set up the password_reset view in your URLconf #}
         <p class="mt-1"><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
 
-        <button class="auth_button" type="submit" class="btn btn-primary mt-2">Войти</button>
+        <button class="auth_button" type="submit" class="btn mt-2">Войти</button>
         <input type="hidden" name="next" value="{{ next }}">
     </form>
 

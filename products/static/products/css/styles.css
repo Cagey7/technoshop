@@ -1,0 +1,18 @@
+.link_text {
+    text-decoration: none; 
+    color: black;
+}
+
+.link_text:hover {
+    color: rgb(40, 40, 187);
+}
+
+.go_cart {
+    background-color: rgb(74, 168, 74);
+    color: white;
+}
+
+.go_cart:hover {
+    background-color: rgb(99, 155, 99);
+    color: white;
+}

@@ -46,3 +46,13 @@ footer {
 .navbar {
     background-color: #3577da; /* Ваш цвет фона навбара */
 }
+
+.button_style {
+    background-color: #3577da;
+    color: white;
+}
+
+.button_style:hover {
+    background-color: #4a73b0;
+    color: white;
+}

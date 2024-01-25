@@ -102,7 +102,6 @@ class ChapterInfo(TemplateView):
         context =  super().get_context_data(**kwargs)
         context["categories"] = Category.objects.filter(category_chapter__slug=self.kwargs["chapter_slug"])
         items_anon = Item.published.filter(item_category__in=context["categories"])
-        print(items_anon)
         items = []
         if self.request.user.is_authenticated:
             for item in items_anon:
