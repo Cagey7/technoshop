@@ -56,3 +56,12 @@ footer {
     background-color: #4a73b0;
     color: white;
 }
+
+.link_text {
+    text-decoration: none; 
+    color: black;
+}
+
+.link_text:hover {
+    color: rgb(40, 40, 187);
+}

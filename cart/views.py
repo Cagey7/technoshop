@@ -56,7 +56,9 @@ class CartPage(TemplateView):
                     cart_item.quantity = 1
                     cart_item.save()
             context["cart_items"] = cart_items
+            context["total"] = cart.get_total()
         else:
+            total = 0
             if self.request.session.get("cart"):
                 new_cart = []
                 new_session_cart = []
@@ -71,10 +73,15 @@ class CartPage(TemplateView):
                         quantity = 1
                     else:
                         quantity = item["quantity"]
-                    new_cart.append({"item": Item.objects.filter(id=item_id), "quantity": quantity})
+                    new_cart.append({"item": Item.objects.get(id=item_id), 
+                                     "quantity": quantity, 
+                                     "total": Item.objects.get(id=item_id).price * quantity})
                     new_session_cart.append({"item": item_id, "quantity": quantity})
                 context["cart_items"] = new_cart
                 self.request.session["cart"] = new_session_cart
+                for item in new_cart:
+                    total += item["item"].price * item["quantity"]
+                context["total"] = total
             else:
                 context["cart_items"] = None
         return context

@@ -10,6 +10,13 @@ class Cart(models.Model):
     class Meta:
         verbose_name = "Корзина"
         verbose_name_plural = "Корзина"
+        
+    def get_total(self):
+        total = 0
+        cart_items = CartItem.objects.filter(cart=self)
+        for cart_item in cart_items:
+            total += cart_item.quantity * cart_item.item.price
+        return total
 
     def item_in_cart(self, item_id):
         return self.cartitem_set.filter(item__id=item_id).exists()
@@ -42,3 +49,6 @@ class CartItem(models.Model):
         if self.quantity > amount:
             self.quantity -= amount
             self.save()
+            
+    def item_total(self):
+        return self.item.price * self.quantity
