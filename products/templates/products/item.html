@@ -1,6 +1,8 @@
 {% extends "core/layout.html" %}
 
 {% block body %}
+<main>
+    <div class="container">
     {% if item.is_in_cart %}
 		<h4>{{ item.item.name }}</h4>
 		<div class="container">
@@ -37,4 +39,6 @@
 			</div>
 		</div>
     {% endif %}
+	</div>
+</main>
 {% endblock %}

@@ -2,15 +2,22 @@
 {% load humanize %}
 
 {% block body %}
-    <p>Корзина:</p>
-
-
+<main style="background-color: #e8e9f3; min-height: 100vh;">
+    <div class="container">
+    {% if cart_items %}
+    <h4 class="fw-bold">Корзина</h4>
+    {% else %}
+    <h4 class="fw-bold">Корзина пуста</h4>
+    <p style="font-size: 14px; color: grey;"> Добавьте товар в корзину, чтобы продолжить покупку</p>
+    {% endif %}
+    <br>
     {% if user.is_authenticated %}
         {% if cart_items %}
             <div class="row">
-                <div class="col-md-9">
+                <div class="col-md-8 rounded-5" style="background-color: white;">
+                    <br>
                     {% for cart_item in cart_items %}
-                    <div class="row align-items-center">
+                    <div class="row align-items-center" >
                         <div class="col-md-2">
                             <a href="{% url 'item' cart_item.item.slug %}"><img src="{{ cart_item.item.photo.url }}" width="100"></a>
                         </div>
@@ -42,7 +49,7 @@
                                     {% endif %}
                                 </div>
                                 <div class="col">
-                                    <p class="text-center">{{ cart_item.quantity }}</p>
+                                    <p class="text-center" > {{ cart_item.quantity }}</p>
                                 </div>
                                 <div class="col">
                                     {% if cart_item.quantity == cart_item.item.quantity %}
@@ -60,55 +67,72 @@
                             </div>
                         </div>  
                     </div>
-                    <br>
+                    {% if not forloop.last %}
+                    <hr class="bg-secondary">
+                    {% endif %}
                     {% endfor %}
+                    <br>
                 </div>
-                <div class="col-md-3">
-                    <p class="fw-bold">{{ total|intcomma }} тг</p>
+                <div class="col-md-1 rounded-5"></div>
+                
+                <div class="col-md-3 rounded-5" style="background-color: white;">
+                    <br>
+                    {% if addresses %}
+                        <form method="post" action="{% url 'make_an_order' %}">
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-lg go_cart" type="submit">Купить</button>
+                            </div>
+                            <br>
+                            <p style="font-size: 15px; font-weight:bold;">Оплата при получении</p>
+                            <hr class="bg-secondary">
+                            {% csrf_token %}
+                            <label for="address">Выберите адрес</label>
+                            <select class="form-select" id="address" name="address" aria-label="Выберите адрес">
+                                {% for address in addresses %}
+                                    {% if address.default %}
+                                        <option selected="selected" value="{{ address.id }}">{{ address.info }}</option>
+                                    {% else %}
+                                        <option value="{{ address.id }}">{{ address.info }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </form>
+                    {% endif %}
+                    <br>             
+                    <div class="d-flex justify-content-between" style="font-size: 14px; color: grey;">
+                        <p>Товары, {{ cart_items.0.cart.get_quantity }}  шт.</p>
+                        <p>{{ total|intcomma }} тг</p>
+                    </div>
+                    <hr class="bg-secondary">
+                    <div class="d-flex justify-content-between fw-bold fs-4">
+                        <p>Итого</p>
+                        <p>{{ total|intcomma }} тг</p>
+                    </div>
+                    <br>
                 </div>
             </div>
-            
-            
-            
-            {% if addresses %}
-                <form method="post" action="{% url 'add_address' %}">
-                    {% csrf_token %}
-                    <label for="address">Изменить адрес:</label>
-                    <input type="text" name="address">
-                    <input type="submit" value="Submit">
-                </form>
-                <form method="post" action="{% url 'make_an_order' %}">
-                    {% csrf_token %}
-                    <label for="address">Выберите адрес:</label>
-                    <select id="address" name="address">
-                        {% for address in addresses %}
-                            {% if address.default %}
-                                <option selected="selected" value="{{ address.id }}">{{ address.info }}</option>
-                            {% else %}
-                                <option value="{{ address.id }}">{{ address.info }}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
+            <br>
+            <div class="row">
+                <div class="col-md-8 rounded-5" style="background-color: white;">
+                    <form method="post" action="{% url 'add_address' %}" class="mt-3">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Введите новый адрес</label>
+                            <input type="text" class="form-control" id="address" name="address">
+                        </div>
+                        <button type="submit" class="btn button_style">Добавить адерс</button>
+                    </form>
                     <br>
-                    <input type="submit" value="Купить">
-                </form>
-            {% else %}
-                <form method="post" action="{% url 'add_address' %}">
-                    {% csrf_token %}
-                    <label for="address">Введите адрес:</label>
-                    <input type="text" name="address">
-                    <input type="submit" value="Submit">
-                </form>
-            {% endif %}
-        {% else %}
-            <h1> Коризна пуста </h1>
+                </div>
+            </div>
         {% endif %}
 
     {% else %}
 
         {% if cart_items %}
                 <div class="row">
-                    <div class="col-md-9">
+                    <div class="col-md-8 rounded-5" style="background-color: white;">
+                        <br>
                         {% for cart_item in cart_items %}
                             <div class="row align-items-center">
                                 <div class="col-md-2">
@@ -160,20 +184,37 @@
                                     </div>
                                 </div>
                             </div>
-                            <br>
+                            {% if not forloop.last %}
+                            <hr class="bg-secondary">
+                            {% endif %}
                         {% endfor %}
+                        <br>
                     </div>
-                    <div class="col-md-3">
-                        <p class="fw-bold">{{ total|intcomma }} тг</p>
-
+                    <div class="col-md-1"></div>
+                    <div class="col-md-3 rounded-5" style="background-color: white;">
+                        <br>
+                        <form method="get" action="{% url 'register' %}" class="text-center" >
+                            {% csrf_token %}
+                            <button class="btn button_style" type="submit">Создать аккаунт</button>
+                        </form>
+                        <br><br>                
+                        <div class="d-flex justify-content-between" style="font-size: 14px; color: grey;">
+                            <p>Товары, {{ amount_of_items }} шт.</p>
+                            <p>{{ total|intcomma }} тг</p>
+                        </div>
+                        <hr class="bg-secondary">
+                        <div class="d-flex justify-content-between fw-bold fs-4">
+                            <p>Итого</p>
+                            <p>{{ total|intcomma }} тг</p>
+                        </div>
+                        <br>
                     </div>
                 </div>
-            
-
         {% else %}
             <h1> Коризна пуста </h1>
         {% endif %}
 
     {% endif %}
-
+    </div>
+</main>
 {% endblock %}

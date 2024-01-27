@@ -17,7 +17,14 @@ class Cart(models.Model):
         for cart_item in cart_items:
             total += cart_item.quantity * cart_item.item.price
         return total
-
+    
+    def get_quantity(self):
+        total_quantity = 0
+        cart_items = CartItem.objects.filter(cart=self)
+        for cart_item in cart_items:
+            total_quantity += cart_item.quantity
+        return total_quantity
+    
     def item_in_cart(self, item_id):
         return self.cartitem_set.filter(item__id=item_id).exists()
 

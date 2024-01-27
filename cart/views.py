@@ -59,6 +59,7 @@ class CartPage(TemplateView):
             context["total"] = cart.get_total()
         else:
             total = 0
+            amount_of_items = 0
             if self.request.session.get("cart"):
                 new_cart = []
                 new_session_cart = []
@@ -81,7 +82,10 @@ class CartPage(TemplateView):
                 self.request.session["cart"] = new_session_cart
                 for item in new_cart:
                     total += item["item"].price * item["quantity"]
+                for item in new_cart:
+                    amount_of_items += item["quantity"]
                 context["total"] = total
+                context["amount_of_items"] = amount_of_items
             else:
                 context["cart_items"] = None
         return context

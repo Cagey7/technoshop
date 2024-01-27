@@ -1,6 +1,8 @@
 {% extends "core/layout.html" %}
 
 {% block body %}
+<main>
+    <div class="container">
     <h1>{{ categories.0.category_chapter.name }}</h1>
     <div class="row">
         <div class="col-3">
@@ -66,8 +68,6 @@
             </div>
         </div>
     </div>
-
-
-
-
+    </div>
+</main>
 {% endblock %}
