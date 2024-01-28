@@ -3,13 +3,13 @@ from .models import Order, Purchase
 
 
 @admin.register(Order)
-class CartItemAdmin(admin.ModelAdmin):
-    list_display = ("user", "order_status", "address")
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ("user", "order_status", "address", "total")
     list_per_page = 10
 
 
 @admin.register(Purchase)
-class CartAdmin(admin.ModelAdmin):
+class PurchaseAdmin(admin.ModelAdmin):
     list_display = ("item", "quantity", "order")
     list_display_links = ("item", )
     list_per_page = 10

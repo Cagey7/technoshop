@@ -17,6 +17,7 @@ class Order(TimeStampedModel):
     items = models.ManyToManyField(Item, through="Purchase", related_name="order_items", verbose_name="Товары")
     order_status = models.IntegerField(choices=Status.choices, default=Status.CREATED, verbose_name="Статус заказа")
     address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, verbose_name="Адрес")
+    total = models.IntegerField(null=False, verbose_name="Итого")
 
     class Meta:
         verbose_name = "Заказ"

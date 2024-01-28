@@ -16,7 +16,7 @@ class MakeAnOrder(View):
         Address(user=user, info=address, default=True)
         cart = Cart.objects.get(user=user)
         cart_items = CartItem.objects.filter(cart=cart)
-        order = Order.objects.create(user=user, address=address)
+        order = Order.objects.create(user=user, address=address, total=cart.get_total())
         
         for cart_item in cart_items:
             Purchase.objects.create(order=order, quantity=cart_item.quantity, item=cart_item.item)
