@@ -13,11 +13,20 @@
 					{% endif %}
 				</div>
 				<div class="col-6">
+					<br><br><br>
 					<h3>{{ item.item.price }} тг</h3>
 					<form action="{% url 'cart' %}">
 						<button class="btn btn-success" type="submit">Перейти в корзину</button>
 					</form>
+					<p style="font-size:14px;">Доступно: {{ item.item.quantity }}</p>
+					<br><br>
+					{% if item.item.item_brand.photo.url %}
+						<img src="{{ item.item.item_brand.photo.url }}" width=100>
+					{% endif %}
 				</div>
+			</div>
+			<div class="row">
+				{{ item.item.desc}}
 			</div>
 		</div>
     {% else %}
@@ -30,12 +39,21 @@
 					{% endif %}
 				</div>
 				<div class="col-6">
+					<br><br><br>
 					<h3>{{ item.item.price }} тг</h3>
 					<form method="post" action="{% url 'add_to_cart' item.item.id %}">
 						{% csrf_token %}
 						<button class="btn btn-primary" type="submit">В коризну</button>
 					</form>
+					<p style="font-size:14px;">Доступно: {{ item.item.quantity }}</p>
+					<br><br>
+					{% if item.item.item_brand.photo.url %}
+						<img src="{{ item.item.item_brand.photo.url }}" width=100>
+					{% endif %}
 				</div>
+			</div>
+			<div class="row">
+				{{ item.item.desc}}
 			</div>
 		</div>
     {% endif %}

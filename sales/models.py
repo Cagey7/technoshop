@@ -49,3 +49,15 @@ class Purchase(models.Model):
     
     def __str__(self):
         return f"{self.item} пользователя {self.order.user}"
+
+
+class News(models.Model):
+    name = models.CharField(max_length=127, db_index=True)
+    photo = models.ImageField(upload_to="images/news/%Y/%m/%d", default=None, blank=True, null=True, verbose_name="Изображение")
+
+    class Meta:
+        verbose_name = "Новость"
+        verbose_name_plural = "Новости"
+
+    def __str__(self):
+        return f"{self.name}"
