@@ -3,6 +3,8 @@ from django.shortcuts import get_object_or_404
 from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView
 from .models import *
+from sales.models import News
+from products.models import Brand
 from core.views import navbar_auth, navbar_not_auth
 
 
@@ -12,6 +14,8 @@ class ProductsHome(TemplateView):
         "title": "Главная страница",
         "categories": Category.objects.all(),
         "chapters": Chapter.objects.all(),
+        "news": News.objects.all(),
+        "brands": Brand.objects.all(),
         "navbar_auth": navbar_auth,
         "navbar_not_auth": navbar_not_auth,
     }
