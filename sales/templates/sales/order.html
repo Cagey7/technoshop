@@ -1,6 +1,39 @@
-{% extends "core/layout.html" %}
+{% extends "users/user_layout.html" %}
+{% load humanize %}
 
-{% block body %}
-    <h1>Информация о заказе</h1>
-    <p>{{ order.id }}</p>
+{% block userbody %}
+<h3>Заказ № {{ order.id }}</h3>
+<br>
+<div class="row">
+    <div class="col-md-9">
+        {% for purchase in order.purchase_set.all %}
+            
+                <div class="row align-items-center">
+                    <div class="col-md-2">
+                        <a href="{% url 'item' purchase.item.slug %}"><img src="{{ purchase.item.photo.url }}" width="80"></a>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="link_text" href="{% url 'item' purchase.item.slug %}"><p class="text-left">{{ purchase.item.name }}</p></a>
+                    </div>
+                    <div class="col-md-2">
+                        <p class="fw-bold">{{ purchase.purchase_total|intcomma  }} тг</p>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="row">
+                            <div class="col">
+                                <p class="text-center">{{ purchase.quantity }} шт.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% if not forloop.last %}
+            <hr>
+            {% else %}
+            <hr>
+            <h5 style="font-weight:bold; text-align: right;">Итого: {{ order.total|intcomma }} тг</h5>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="col-md-3"></div>
+</div>
 {% endblock %}

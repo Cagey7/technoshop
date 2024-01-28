@@ -49,3 +49,17 @@ class OrderInfo(TemplateView):
         context =  super().get_context_data(**kwargs)
         context["order"] = Order.objects.get(pk=kwargs.get("pk"))
         return context
+
+class OrdersProfile(TemplateView):
+    template_name = "sales/profile_orders.html"
+    extra_context = {
+        "title": "Профиль",
+        "navbar_auth": navbar_auth,
+        "navbar_not_auth": navbar_not_auth,
+        "chapters": Chapter.objects.all(),
+    }
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["orders"] = Order.objects.filter(user=self.request.user)
+        return context

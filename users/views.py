@@ -91,20 +91,6 @@ class DeleteAddress(View):
         else:
             return reverse_lazy("index")
 
-class OrdersProfile(TemplateView):
-    template_name = "users/profile_orders.html"
-    extra_context = {
-        "title": "Профиль",
-        "navbar_auth": navbar_auth,
-        "navbar_not_auth": navbar_not_auth,
-        "chapters": Chapter.objects.all(),
-    }
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context["orders"] = Order.objects.filter(user=self.request.user)
-        return context
-
 
 class AddressProfile(TemplateView):
     template_name = "users/address.html"

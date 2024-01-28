@@ -6,7 +6,6 @@ from .views import *
 urlpatterns = [
     path("login/", LoginUser.as_view(), name="login"),
     path("register/", RegisterUser.as_view(), name="register"),
-    path("orders/", OrdersProfile.as_view(), name="orders"),
     path("address/", AddressProfile.as_view(), name="address"),
     path("logout/", LogoutView.as_view(), name="logout"),
     path("add_address/", AddAddress.as_view(), name="add_address"),

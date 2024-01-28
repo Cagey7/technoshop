@@ -18,7 +18,10 @@
                 <a class="profile_list_link" href="{% url 'orders' %}"><li>Мои заказы</li></a>
             </ul>
         </div>
-        {% block userbody %}
-        {% endblock %}
+        <div class="col-10">
+            {% block userbody %}
+            {% endblock %}
+        </div>
+    </div>
 </main>
 {% endblock %}

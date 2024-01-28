@@ -97,6 +97,8 @@
                                 {% endfor %}
                             </select>
                         </form>
+                    {% else %}
+                        <p style="font-size: 15px; font-weight:bold;">Введите адрес, чтобы сделать заказ</p>
                     {% endif %}
                     <br>             
                     <div class="d-flex justify-content-between" style="font-size: 14px; color: grey;">
@@ -210,8 +212,6 @@
                         <br>
                     </div>
                 </div>
-        {% else %}
-            <h1> Коризна пуста </h1>
         {% endif %}
 
     {% endif %}

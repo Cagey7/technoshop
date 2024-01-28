@@ -16,7 +16,7 @@ class Order(TimeStampedModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
     items = models.ManyToManyField(Item, through="Purchase", related_name="order_items", verbose_name="Товары")
     order_status = models.IntegerField(choices=Status.choices, default=Status.CREATED, verbose_name="Статус заказа")
-    address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, verbose_name="Адрес")
+    address = models.CharField(max_length=511, verbose_name="Адрес")
     total = models.IntegerField(null=False, verbose_name="Итого")
 
     class Meta:
@@ -44,5 +44,8 @@ class Purchase(models.Model):
         verbose_name = "Товар заказа"
         verbose_name_plural = "Товар заказа"
 
+    def purchase_total(self):
+        return self.item.price * self.quantity
+    
     def __str__(self):
         return f"{self.item} пользователя {self.order.user}"
