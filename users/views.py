@@ -73,7 +73,7 @@ class AddAddress(View):
 
 
 class UserProfile(TemplateView):
-    template_name = "users/profile.html"
+    template_name = "users/profile_orders.html"
     extra_context = {
         "title": "Профиль",
         "navbar_auth": navbar_auth,

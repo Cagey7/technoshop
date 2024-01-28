@@ -28,3 +28,12 @@
 .auth_error_msg {
     color: red;
 }
+
+.profile_list_link {
+    text-decoration: none; 
+    color: inherit;
+}
+
+.profile_list_link:hover {
+    text-decoration: underline;
+}

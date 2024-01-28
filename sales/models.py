@@ -26,6 +26,11 @@ class Order(TimeStampedModel):
     def get_order_status(self):
         return self.get_order_status_display()
 
+    def formatted_order_date(self):
+        months = {1: "Января", 2: "Февраля", 3: "Марта", 4: "Апреля", 5: "Мая", 6: "Июня", 
+                  7: "Июля", 8: "Августа", 9: "Сентября", 10: "Октября", 11: "Ноября", 12: "Декабря"}
+        return f"Заказ от {self.created.day} {months[self.created.month]} {self.created.year}"
+
     def __str__(self):
         return f"Заказ номер: {self.pk}"
 
