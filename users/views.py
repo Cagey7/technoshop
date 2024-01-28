@@ -69,10 +69,29 @@ class AddAddress(View):
         Address.objects.filter(user=user).update(default=False)
         address = Address(user=user, info=address_input, default=True)
         address.save()
-        return redirect("cart")
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        referer = self.request.META.get("HTTP_REFERER")
+        if referer:
+            return referer
+        else:
+            return reverse_lazy("index")
 
 
-class UserProfile(TemplateView):
+class DeleteAddress(View):
+    def post(self, request, *args, **kwargs):
+        Address(id=request.POST.get("address")).delete()
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        referer = self.request.META.get("HTTP_REFERER")
+        if referer:
+            return referer
+        else:
+            return reverse_lazy("index")
+
+class OrdersProfile(TemplateView):
     template_name = "users/profile_orders.html"
     extra_context = {
         "title": "Профиль",
@@ -84,4 +103,20 @@ class UserProfile(TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context["orders"] = Order.objects.filter(user=self.request.user)
+        return context
+
+
+class AddressProfile(TemplateView):
+    template_name = "users/address.html"
+    extra_context = {
+        "title": "Профиль",
+        "navbar_auth": navbar_auth,
+        "navbar_not_auth": navbar_not_auth,
+        "chapters": Chapter.objects.all(),
+        
+    }
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["addresses"] = Address.objects.filter(user=self.request.user)
         return context
