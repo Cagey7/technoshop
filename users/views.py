@@ -4,6 +4,7 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView
 from django.views import View
 from django.views.generic import TemplateView
+from django.views.generic.edit import FormView
 from users.models import Address
 from cart.models import Cart, CartItem
 from sales.models import Order
@@ -62,23 +63,6 @@ class RegisterUser(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class AddAddress(View):
-    def post(self, request, *args, **kwargs):
-        address_input = request.POST.get("address")
-        user = self.request.user
-        Address.objects.filter(user=user).update(default=False)
-        address = Address(user=user, info=address_input, default=True)
-        address.save()
-        return redirect(self.get_success_url())
-
-    def get_success_url(self):
-        referer = self.request.META.get("HTTP_REFERER")
-        if referer:
-            return referer
-        else:
-            return reverse_lazy("index")
-
-
 class DeleteAddress(View):
     def post(self, request, *args, **kwargs):
         Address(id=request.POST.get("address")).delete()
@@ -92,17 +76,40 @@ class DeleteAddress(View):
             return reverse_lazy("index")
 
 
-class AddressProfile(TemplateView):
+class AddressProfile(FormView):
     template_name = "users/address.html"
+    form_class = AddressForm
+    
     extra_context = {
         "title": "Профиль",
         "navbar_auth": navbar_auth,
         "navbar_not_auth": navbar_not_auth,
         "chapters": Chapter.objects.all(),
-        
     }
     
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context["addresses"] = Address.objects.filter(user=self.request.user)
         return context
+    
+    def form_valid(self, form):
+        cleaned_data = form.cleaned_data
+        address_input = f'''г.{cleaned_data['city']} ул.{cleaned_data['street']} 
+                        д.{cleaned_data['house_number']} кв.{cleaned_data['apartment_number']}'''
+        user = self.request.user
+        Address.objects.filter(user=user).update(default=False)
+        address = Address(user=user, info=address_input, default=True)
+        address.save()
+        return redirect(self.get_success_url())
+
+    def form_invalid(self, form):
+        print("test")
+        print(form)
+        return super().form_invalid(form)
+
+    def get_success_url(self):
+        referer = self.request.META.get("HTTP_REFERER")
+        if referer:
+            return referer
+        else:
+            return reverse_lazy("index")

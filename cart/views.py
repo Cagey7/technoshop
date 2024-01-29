@@ -6,6 +6,7 @@ from users.models import Address
 from django.views import View
 from .models import Cart, CartItem
 from products.models import Item, Chapter
+from users.forms import AddressForm
 from core.views import navbar_auth, navbar_not_auth
 
 
@@ -37,6 +38,7 @@ class CartPage(TemplateView):
         "navbar_auth": navbar_auth,
         "navbar_not_auth": navbar_not_auth,
         "chapters": Chapter.objects.all(),
+        "form": AddressForm,
     }
 
     def get_context_data(self, **kwargs):

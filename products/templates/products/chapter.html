@@ -1,4 +1,5 @@
 {% extends "core/layout.html" %}
+{% load humanize %}
 
 {% block body %}
 <main>
@@ -30,7 +31,7 @@
                                 <img class="card-img-top" src="{{ item.item.photo.url }}">
                             </a>
                             <div class="card-body">
-                                <h5 class="card-title">{{ item.item.price }} тг</h5>
+                                <h5 class="card-title">{{ item.item.price|intcomma }} тг</h5>
                                 <a class="link_text" href="{% url 'item' item.item.slug %}">
                                     <p class="card-text">{{ item.item.name }}</p>
                                 </a>
@@ -42,7 +43,7 @@
                                 {% else %}
                                 <form method="post" action="{% url 'add_to_cart' item.item.id %}">
                                     {% csrf_token %}
-                                    <button class="btn button_style" type="submit">В коризну</button>
+                                    <button class="btn button_style" type="submit">В корзину</button>
                                 </form>
                                 {% endif %}
                             </div>

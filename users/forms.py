@@ -33,3 +33,11 @@ class RegisterUserForm(UserCreationForm):
     class Meta:
         model = get_user_model()
         fields = ["email", "password1", "password2"]
+
+
+class AddressForm(forms.Form):
+    city = forms.CharField(min_length=2, max_length=63, label="Город", widget=forms.TextInput(attrs={"class": "form-control"}))
+    street = forms.CharField(min_length=2, max_length=63, label="Улица", widget=forms.TextInput(attrs={"class": "form-control"}))
+    house_number = forms.IntegerField(label="Номер дома", widget=forms.TextInput(attrs={"class": "form-control"}))
+    apartment_number = forms.IntegerField(label="Номер квартиры", widget=forms.TextInput(attrs={"class": "form-control"}))
+    
