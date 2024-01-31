@@ -2,8 +2,14 @@
 
 {% block body %}
 <main>
-    <br><br>
+    <br>
     <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <h2>{{ message }}</h2>
+            {% endfor %}
+            <br>
+        {% endif %}
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 {% for n in news %}

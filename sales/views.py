@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import TemplateView
+from django.views.generic import RedirectView
+from django.contrib import messages
 from users.models import Address
 from cart.models import Cart, CartItem
 from sales.models import Order, Purchase
@@ -23,17 +25,9 @@ class MakeAnOrder(View):
             cart_item.item.decrease_quantity(cart_item.quantity)
             cart_item.delete()
 
-        return redirect("success")
+        messages.success(request, "Спасибо за покупку")
+        return redirect("index")
 
-
-class SuccessOrder(TemplateView):
-    template_name = "sales/success.html"
-    extra_context = {
-        "title": "Спасибо за покупку",
-        "navbar_auth": navbar_auth,
-        "navbar_not_auth": navbar_not_auth,
-        "chapters": Chapter.objects.all(),
-    }
 
 
 class OrderInfo(TemplateView):
@@ -61,5 +55,13 @@ class OrdersProfile(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context["orders"] = Order.objects.filter(user=self.request.user)
+        context["orders"] = Order.objects.filter(user=self.request.user).order_by("-created")
         return context
+
+
+class CancelOrder(View):
+    def post(self, request, *args, **kwargs):
+        order = Order.objects.get(id=kwargs.get("pk"))
+        order.order_status = Order.Status.CANCELED
+        order.save()
+        return redirect("orders")

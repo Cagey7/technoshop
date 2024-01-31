@@ -16,10 +16,21 @@
         <hr class="bg-secondary">
             <div class="row">
                 <div class="col-5">
-                    <p>
-                        Адрес доставки: {{ order.address }} <br>
-                        Статус: {{ order.get_order_status }}
-                    </p>
+                    <p style="margin-bottom:5px;">Адрес доставки: {{ order.address }}</p>
+                    {% if order.get_order_status == "Отменён" %}
+                        <p>Статус: <span class="rounded-pill" style="background-color: #e46161; padding:2px 7px; color:white;">{{ order.get_order_status }}</span></p>
+                    {% elif order.get_order_status == "Заказ создан" or order.get_order_status == "Передан службе доставки" %}
+                        <p>Статус: <span class="rounded-pill" style="background-color: #3c88fa; padding:2px 7px; color:white;">{{ order.get_order_status }}</span></p>
+                    {% elif order.get_order_status == "Доставлен"%}
+                        <p>Статус: <span class="rounded-pill" style="background-color: grey; padding:2px 7px; color:white;">{{ order.get_order_status }}</span></p>
+                    {% endif %}
+
+                    {% if order.get_order_status != "Отменён" and order.get_order_status != "Доставлен" %}
+                    <form  method="post" action="{% url 'cancel' order.id %}">
+                        {% csrf_token %}
+                        <button style="background: none; border: none; color: #fc2b2b;" type="submit">Отменить заказ</button>
+                    </form>
+                    {% endif %}
                 </div>
                 <div class="col-2"></div>
                 <div class="col-5">

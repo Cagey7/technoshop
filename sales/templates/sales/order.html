@@ -3,6 +3,13 @@
 
 {% block userbody %}
 <h3>Заказ № {{ order.id }}</h3>
+{% if order.get_order_status == "Отменён" %}
+    <p><span class="rounded-pill" style="background-color: #e46161; padding:2px 7px; color:white;">{{ order.get_order_status }}</span></p>
+{% elif order.get_order_status == "Заказ создан" or order.get_order_status == "Передан службе доставки" %}
+    <p><span class="rounded-pill" style="background-color: #3c88fa; padding:2px 7px; color:white;">{{ order.get_order_status }}</span></p>
+{% elif order.get_order_status == "Доставлен"%}
+    <p><span class="rounded-pill" style="background-color: grey; padding:2px 7px; color:white;">{{ order.get_order_status }}</span></p>
+{% endif %}
 <br>
 <div class="row">
     <div class="col-md-9">
