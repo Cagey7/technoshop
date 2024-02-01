@@ -6,7 +6,8 @@
     <h3>Адреса</h3>
     <br>
     <div class="row">
-        <div class="col-8">       
+        <div class="col-8">
+            {% if addresses %}
             <form method="post" action="{% url 'delete_address' %}">
                 {% csrf_token %}
                 <label for="address" class="h6">Выберите адрес</label>
@@ -24,6 +25,7 @@
                     <button type="submit" class="btn delete_button" type="submit">Удалить адрес</button>
                 </div>
             </form>
+            {% endif %}
         </div>
         <div class="col-4"></div>
     </div>

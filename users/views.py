@@ -102,14 +102,45 @@ class AddressProfile(FormView):
         address.save()
         return redirect(self.get_success_url())
 
-    def form_invalid(self, form):
-        print("test")
-        print(form)
-        return super().form_invalid(form)
-
     def get_success_url(self):
         referer = self.request.META.get("HTTP_REFERER")
         if referer:
             return referer
         else:
             return reverse_lazy("index")
+
+
+class UserProfile(TemplateView):
+    template_name = "users/profile.html"
+
+    extra_context = {
+        "title": "Профиль",
+        "navbar_auth": navbar_auth,
+        "navbar_not_auth": navbar_not_auth,
+        "chapters": Chapter.objects.all(),
+    }
+
+
+class ChangeFirstName(View):
+    def post(self, request, *args, **kwargs):
+        first_name = request.POST.get("first_name")
+        self.request.user.first_name = first_name
+        self.request.user.save()
+        return redirect("user_profile")
+
+
+class ChangeLastName(View):
+    def post(self, request, *args, **kwargs):
+        last_name = request.POST.get("last_name")
+        print(last_name)
+        self.request.user.last_name = last_name
+        self.request.user.save()
+        return redirect("user_profile")
+
+
+class ChangePhoneNumber(View):
+    def post(self, request, *args, **kwargs):
+        phone_number = request.POST.get("phone_number")
+        self.request.user.phone_number = phone_number
+        self.request.user.save()
+        return redirect("user_profile")

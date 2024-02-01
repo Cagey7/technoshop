@@ -1,0 +1,45 @@
+{% extends "users/user_layout.html" %}
+
+{% block userbody %}
+    
+    <h3>Профиль</h3>
+    <br>
+    <p style="font-size:14px; color: grey; margin-bottom: 0;">Фамилия и имя</p>
+    <p style="font-size:18px;">{{ request.user.last_name }} {{ request.user.first_name }}</p>
+    <p style="font-size:14px; color: grey; margin-bottom: 0;">Телефон</p>
+    <p style="font-size:18px;">{{ request.user.phone_number }}</p>
+
+    <div class="row">
+        <div class="col-3">
+
+            <form method="post" action="{% url 'change_ln' %}">
+                {% csrf_token %}
+                <div style="padding-bottom:0;" class="mb-3">
+                    <label for="lastname" class="form-label">Фамилия</label>
+                    <input style="height:35px;" type="text" class="form-control" id="lastname" name="last_name">
+                </div>
+                <button style="padding:6px;" type="submit" class="btn button_style">Подтвердить</button>
+            </form>
+            <br>
+            <form method="post" action="{% url 'change_fn' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="firstname" class="form-label">Имя</label>
+                    <input style="height:35px;" type="text" class="form-control" id="firstname" name="first_name">
+                </div>
+                <button style="padding:6px;" type="submit" class="btn button_style">Подтвердить</button>
+            </form>
+            <br>
+            <form method="post" action="{% url 'change_pn' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="change_pn" class="form-label">Номер телефона</label>
+                    <input style="height:35px;" type="text" class="form-control" id="change_pn" name="phone_number">
+                </div>
+                <button style="padding:6px;" type="submit" class="btn button_style">Подтвердить</button>
+            </form>
+        
+        </div>
+    </div>
+    
+{% endblock %}
