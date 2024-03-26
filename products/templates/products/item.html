@@ -2,7 +2,6 @@
 {% load humanize %}
 
 {% block body %}
-<main>
     <div class="container">
     {% if item.is_in_cart %}
 		<h4>{{ item.item.name }}</h4>
@@ -59,5 +58,4 @@
 		</div>
     {% endif %}
 	</div>
-</main>
 {% endblock %}

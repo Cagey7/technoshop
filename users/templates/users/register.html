@@ -1,7 +1,6 @@
 {% extends "core/layout.html" %}
 
 {% block body %}
-<main>
     <div class="container">
     <form class="auth_form" method="post" action="{% url 'register' %}">
         {% csrf_token %}
@@ -34,5 +33,4 @@
         <button class="auth_button" type="submit" class="btn mt-2">Регистрация</button>
     </form>
     </div>
-</main>
 {% endblock %}
